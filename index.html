@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Página de presentación del equipo de desarrollo.">
+  <title>Equipo de Desarrollo</title>
+  <link rel="stylesheet" href="css/styles.css">
+
+  <!-- Aplica el tema guardado ANTES de pintar la página.
+       Si esto se hiciera desde app.js, se vería un parpadeo de claro a oscuro. -->
+  <script>
+    (function () {
+      var tema = null;
+      try { tema = localStorage.getItem('tema-equipo'); } catch (e) { /* modo privado */ }
+      if (!tema) {
+        tema = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro';
+      }
+      document.documentElement.setAttribute('data-tema', tema);
+    })();
+  </script>
+</head>
+<body>
+
+  <!-- ===================== CABECERA ===================== -->
+  <header class="cabecera" id="cabecera">
+    <a href="#inicio" class="marca">
+      <span class="marca__punto"></span>
+      <span class="marca__texto" id="marcaTexto">Equipo</span>
+    </a>
+
+    <nav class="nav" id="nav">
+      <a href="#inicio" class="nav__enlace">Inicio</a>
+      <a href="#equipo" class="nav__enlace">Integrantes</a>
+      <a href="#sobre" class="nav__enlace">Sobre el equipo</a>
+    </nav>
+
+    <div class="cabecera__acciones">
+      <button class="btn-icono" id="btnTema" aria-label="Cambiar entre tema claro y oscuro">
+        <span id="iconoTema">☾</span>
+      </button>
+      <button class="btn-icono btn-icono--menu" id="btnMenu" aria-label="Abrir menú" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Aviso automático si quedaron datos sin completar -->
+  <div class="aviso" id="aviso" hidden>
+    <strong>Faltan datos por completar.</strong>
+    <span id="avisoDetalle"></span>
+    Edítalos en <code>js/datos.js</code>. Este aviso desaparece solo.
+  </div>
+
+  <main>
+
+    <!-- ===================== PORTADA ===================== -->
+    <section class="hero" id="inicio">
+      <div class="hero__fondo" aria-hidden="true"></div>
+
+      <div class="hero__contenido">
+        <p class="hero__kicker">Equipo de desarrollo</p>
+        <h1 class="hero__titulo" id="heroNombre">—</h1>
+        <p class="hero__lema" id="heroLema"></p>
+        <p class="hero__descripcion" id="heroDescripcion"></p>
+
+        <div class="hero__acciones">
+          <a href="#equipo" class="btn btn--primario">Conocer al equipo</a>
+          <a href="#sobre" class="btn btn--secundario">Sobre nosotros</a>
+        </div>
+
+        <ul class="stats" id="stats"></ul>
+      </div>
+
+      <a href="#equipo" class="hero__flecha" aria-label="Ir a la sección de integrantes">
+        <span></span>
+      </a>
+    </section>
+
+    <!-- ===================== INTEGRANTES ===================== -->
+    <section class="seccion" id="equipo">
+      <div class="contenedor">
+        <header class="seccion__cabecera revelar">
+          <p class="seccion__kicker">Quiénes somos</p>
+          <h2 class="seccion__titulo">Integrantes</h2>
+          <p class="seccion__sub">
+            Cada integrante aporta un perfil distinto. Filtra por habilidad para ver
+            quién domina cada tecnología, o abre una tarjeta para ver el detalle.
+          </p>
+        </header>
+
+        <div class="filtros revelar" id="filtros" role="group" aria-label="Filtrar por habilidad"></div>
+
+        <div class="grid" id="gridIntegrantes"></div>
+
+        <p class="sin-resultados" id="sinResultados" hidden>
+          Ningún integrante tiene esa habilidad.
+        </p>
+      </div>
+    </section>
+
+    <!-- ===================== SOBRE EL EQUIPO ===================== -->
+    <section class="seccion seccion--alt" id="sobre">
+      <div class="contenedor contenedor--estrecho">
+        <header class="seccion__cabecera revelar">
+          <p class="seccion__kicker">Nuestra forma de trabajar</p>
+          <h2 class="seccion__titulo">Sobre el equipo</h2>
+        </header>
+
+        <p class="texto-grande revelar" id="sobreTexto"></p>
+
+        <div class="revelar">
+          <h3 class="subtitulo">Habilidades del equipo</h3>
+          <p class="seccion__sub">
+            Suma de las competencias de todos los integrantes.
+          </p>
+          <div class="nube" id="nubeHabilidades"></div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ===================== PIE ===================== -->
+  <footer class="pie">
+    <div class="contenedor pie__interior">
+      <p class="pie__marca" id="pieNombre"></p>
+      <p class="pie__meta" id="pieMeta"></p>
+    </div>
+  </footer>
+
+  <!-- ===================== MODAL DE DETALLE ===================== -->
+  <div class="modal" id="modal" hidden>
+    <div class="modal__fondo" id="modalFondo"></div>
+    <div class="modal__caja" role="dialog" aria-modal="true" aria-labelledby="modalNombre">
+      <button class="modal__cerrar" id="modalCerrar" aria-label="Cerrar">&times;</button>
+      <div class="modal__cabecera">
+        <div class="avatar avatar--grande" id="modalAvatar"></div>
+        <div>
+          <h3 class="modal__nombre" id="modalNombre"></h3>
+          <p class="modal__rol" id="modalRol"></p>
+        </div>
+      </div>
+      <p class="modal__descripcion" id="modalDescripcion"></p>
+      <h4 class="modal__subtitulo">Principales habilidades</h4>
+      <div class="chips" id="modalHabilidades"></div>
+    </div>
+  </div>
+
+  <script src="js/datos.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
